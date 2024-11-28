@@ -1,4 +1,4 @@
-hostname: s1-leaf4
+hostname: s1-leaf6
 is_deployed: true
 static_routes:
 - vrf: default
@@ -31,7 +31,7 @@ management_interfaces:
   description: oob_management
   shutdown: false
   vrf: default
-  ip_address: 192.168.0.15/24
+  ip_address: 192.168.0.29/24
   gateway: 192.168.0.1
   type: oob
 management_api_http:
@@ -44,6 +44,9 @@ vlans:
   name: MLAG_PEER
   trunk_groups:
   - MLAG
+- id: 10
+  name: Ten
+  tenant: MY_FABRIC
 - id: 20
   name: Twenty
   tenant: MY_FABRIC
@@ -56,35 +59,35 @@ vlan_interfaces:
   ip_address: 10.1.253.1/31
 port_channel_interfaces:
 - name: Port-Channel1
-  description: MLAG_PEER_s1-leaf3_Po1
+  description: MLAG_PEER_s1-leaf5_Po1
   type: switched
   shutdown: false
   mode: trunk
   trunk_groups:
   - MLAG
 - name: Port-Channel2
-  description: SPINES_Po4
+  description: SPINES_Po9
   type: switched
   shutdown: false
   mode: trunk
-  vlans: '20'
+  vlans: 10,20
   mlag: 2
 ethernet_interfaces:
 - name: Ethernet1
-  peer: s1-leaf3
+  peer: s1-leaf5
   peer_interface: Ethernet1
   peer_type: mlag_peer
-  description: MLAG_PEER_s1-leaf3_Ethernet1
+  description: MLAG_PEER_s1-leaf5_Ethernet1
   type: port-channel-member
   shutdown: false
   channel_group:
     id: 1
     mode: active
 - name: Ethernet6
-  peer: s1-leaf3
+  peer: s1-leaf5
   peer_interface: Ethernet6
   peer_type: mlag_peer
-  description: MLAG_PEER_s1-leaf3_Ethernet6
+  description: MLAG_PEER_s1-leaf5_Ethernet6
   type: port-channel-member
   shutdown: false
   channel_group:
@@ -92,9 +95,9 @@ ethernet_interfaces:
     mode: active
 - name: Ethernet2
   peer: s1-spine1
-  peer_interface: Ethernet5
+  peer_interface: Ethernet10
   peer_type: l3spine
-  description: S1-SPINE1_Ethernet5
+  description: S1-SPINE1_Ethernet10
   shutdown: false
   type: port-channel-member
   channel_group:
@@ -102,16 +105,16 @@ ethernet_interfaces:
     mode: active
 - name: Ethernet3
   peer: s1-spine2
-  peer_interface: Ethernet5
+  peer_interface: Ethernet10
   peer_type: l3spine
-  description: S1-SPINE2_Ethernet5
+  description: S1-SPINE2_Ethernet10
   shutdown: false
   type: port-channel-member
   channel_group:
     id: 2
     mode: active
 mlag_configuration:
-  domain_id: RACK2
+  domain_id: RACK3
   local_interface: Vlan4094
   peer_address: 10.1.253.0
   peer_link: Port-Channel1
