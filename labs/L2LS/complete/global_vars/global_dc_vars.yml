@@ -21,7 +21,6 @@ local_users:
     privilege: 15
     role: network-admin
     sha512_password: "{{ ansible_password | password_hash('sha512', salt='arista', rounds=5000) }}"
-    ssh_key: "{{ lookup('ansible.builtin.file', '~/.ssh/id_rsa.pub') }}"
 
 # AAA
 aaa_authorization:
@@ -64,9 +63,3 @@ p2p_uplinks_mtu: 1500
 # CVP node variables
 cv_collection: v3
 execute_tasks: true
-
-# Login Banner
-banners:
-  motd: |
-    You shall not pass. Unless you are authorized. Then you shall pass.
-    EOF
